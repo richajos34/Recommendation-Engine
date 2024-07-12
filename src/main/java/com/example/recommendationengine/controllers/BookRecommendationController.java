@@ -25,6 +25,11 @@ public class BookRecommendationController {
         return bookRecommendationService.recommendBooks(genre, minRating);
     }
 
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookRecommendationService.getAllBooks();
+    }
+
     @PostMapping
     public Book addBook(@RequestBody Book book) {
         return bookRecommendationService.addBook(book);
