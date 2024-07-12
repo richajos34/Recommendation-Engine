@@ -1,16 +1,20 @@
-package com.example.recommendation_engine.Controllers;
+package com.example.recommendationengine.controllers;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.recommendation_engine.Services.BookRecommendationService;
-import com.example.recommendation_engine.models.Book;
+import com.example.recommendationengine.models.Book;
+import com.example.recommendationengine.services.BookRecommendationService;
 
 @RestController
+@RequestMapping("/books")
 public class BookRecommendationController {
 
     @Autowired
@@ -19,5 +23,10 @@ public class BookRecommendationController {
     @GetMapping("/recommendations")
     public List<Book> getRecommendations(@RequestParam String genre, @RequestParam double minRating) {
         return bookRecommendationService.recommendBooks(genre, minRating);
+    }
+
+    @PostMapping
+    public Book addBook(@RequestBody Book book) {
+        return bookRecommendationService.addBook(book);
     }
 }

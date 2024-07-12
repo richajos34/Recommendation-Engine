@@ -1,4 +1,4 @@
-package com.example.recommendation_engine.models;
+package com.example.recommendationengine.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,0 +1,5 @@
+com/example/recommendation_engine/models/Book.class
+com/example/recommendation_engine/Repositorys/BookRepository.class
+com/example/recommendation_engine/Services/BookRecommendationService.class
+com/example/recommendation_engine/RecommendationEngineApplication.class
+com/example/recommendation_engine/Controllers/BookRecommendationController.class

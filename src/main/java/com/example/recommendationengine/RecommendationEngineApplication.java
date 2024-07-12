@@ -1,4 +1,4 @@
-package com.example.recommendation_engine;
+package com.example.recommendationengine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RecommendationEngineApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RecommendationEngineApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(RecommendationEngineApplication.class, args);
+    }
 }
