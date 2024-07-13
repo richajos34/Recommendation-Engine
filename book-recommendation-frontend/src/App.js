@@ -1,24 +1,23 @@
-import logo from './logo.svg';
+// src/App.js
+import React from 'react';
+import { Container } from '@chakra-ui/react';
+import AddBookForm from './components/AddBookForm';
+import BookRecommendations from './components/BookRecommendations';
+import BookList from './components/BookList';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <Container maxW="container.md">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Book Recommendation App</h1>
       </header>
-    </div>
+      <main>
+        <AddBookForm />
+        <BookRecommendations />
+        <BookList />
+      </main>
+    </Container>
   );
 }
 
