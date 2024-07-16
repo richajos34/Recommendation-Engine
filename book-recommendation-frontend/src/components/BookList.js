@@ -1,75 +1,61 @@
-// src/components/BookList.js
-import React, { useState, useEffect } from 'react';
+// src/components/BookSidebar.js
+import React from 'react';
 import {
   Box,
+  Flex,
   Heading,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
   List,
   ListItem,
-  Text,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
-import axios from 'axios';
+import { AddIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
-function BookList() {
-  const [books, setBooks] = useState([]);
-  const [booksByGenre, setBooksByGenre] = useState({});
+function BookList({ books, onAddBookClick }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/books');
-        console.log(response.data)
-        setBooks(response.data);
-
-        const groupedBooks = response.data.reduce((acc, book) => {
-          if (!acc[book.genre]) {
-            acc[book.genre] = [];
-          }
-          acc[book.genre].push(book);
-          return acc;
-        }, {});
-        setBooksByGenre(groupedBooks);
-      } catch (error) {
-        console.error('Error fetching books', error);
-      }
-    };
-
-    fetchBooks();
-  }, []);
+  const handleAddBookClick = () => {
+    navigate('/add-book');
+    onClose(); // Close the drawer after navigation
+  };
 
   return (
-    <Box p={5} shadow="md" borderWidth="1px" mt={5} bg="gray.700" color="white">
-      <Heading as="h3" size="lg" mb={4}>All Books</Heading>
-      <Accordion allowMultiple>
-        {Object.keys(booksByGenre).map((genre) => (
-          <AccordionItem key={genre}>
-            <h2>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  {genre}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
+    <>
+      <Button onClick={onOpen} position="absolute" top={4} right={4} colorScheme="teal">
+        <AddIcon />
+      </Button>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Richa's Books</DrawerHeader>
+            <DrawerBody>
               <List spacing={3}>
-                {booksByGenre[genre].map((book) => (
-                  <ListItem key={book.id} p={2} shadow="md" borderWidth="1px" bg="gray.600">
-                    <Text fontWeight="bold">{book.title}</Text>
-                    <Text>by {book.author}</Text>
-                    <Text>Rating: {book.rating}</Text>
+                {books.map((book) => (
+                  <ListItem key={book.id}>
+                    <Box as="span" fontWeight="bold">
+                      {book.title}
+                    </Box>
+                    <Box as="span"> by {book.author}</Box>
                   </ListItem>
                 ))}
               </List>
-            </AccordionPanel>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </Box>
+              <Button mt={4} colorScheme="teal" onClick={handleAddBookClick}>
+                Add Book
+              </Button>
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+    </>
   );
 }
 

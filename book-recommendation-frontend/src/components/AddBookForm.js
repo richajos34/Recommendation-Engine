@@ -1,7 +1,24 @@
 // src/components/AddBookForm.js
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, Heading, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  useToast,
+  ChakraProvider,
+  extendTheme,
+  CSSReset,
+} from '@chakra-ui/react';
 import axios from 'axios';
+
+const lightTheme = extendTheme({
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
+});
 
 function AddBookForm() {
   const [title, setTitle] = useState('');
@@ -12,26 +29,28 @@ function AddBookForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const book = { title, author, genre, rating };
     try {
-      const response = await axios.post('http://localhost:8080/books', book);
-      if (response.status === 200 || response.status === 201) {
-        toast({
-          title: 'Book added.',
-          description: 'The book has been added successfully.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-        setTitle('');
-        setAuthor('');
-        setGenre('');
-        setRating('');
-      }
+      await axios.post('http://localhost:8080/books', {
+        title,
+        author,
+        genre,
+        rating,
+      });
+      toast({
+        title: 'Book added.',
+        description: 'The book has been added successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setTitle('');
+      setAuthor('');
+      setGenre('');
+      setRating('');
     } catch (error) {
       toast({
-        title: 'Error.',
-        description: 'Failed to add the book.',
+        title: 'Error adding book.',
+        description: 'There was an error adding the book.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -40,46 +59,56 @@ function AddBookForm() {
   };
 
   return (
-    <Box p={5} shadow="md" borderWidth="1px">
-      <Heading as="h3" size="lg" mb={4}>Add a New Book</Heading>
+    <Box
+      marginRight="20%"
+      marginTop="10%"
+      marginLeft="auto"
+      boxShadow="md"
+      width="60%"
+      borderRadius="2xl"
+      bg="#FFFDD0"
+      p={5}>
       <form onSubmit={handleSubmit}>
-        <FormControl mb={4}>
-          <FormLabel>Title</FormLabel>
+        <FormControl isRequired mb={4}>
+          <FormLabel color="black">Title</FormLabel>
           <Input
-            type="text"
-            placeholder="Title"
+            color="black"
+            borderColor="black"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </FormControl>
-        <FormControl mb={4}>
-          <FormLabel>Author</FormLabel>
+        <FormControl isRequired mb={4}>
+          <FormLabel color="black" >Author</FormLabel>
           <Input
-            type="text"
-            placeholder="Author"
+            color="black"
+            borderColor="black"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </FormControl>
-        <FormControl mb={4}>
-          <FormLabel>Genre</FormLabel>
+        <FormControl isRequired mb={4}>
+          <FormLabel color="black" >Genre</FormLabel>
           <Input
-            type="text"
-            placeholder="Genre"
+            color="black"
+            borderColor="black"
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
           />
         </FormControl>
-        <FormControl mb={4}>
-          <FormLabel>Rating</FormLabel>
+        <FormControl isRequired mb={4}>
+          <FormLabel color="black" >Rating</FormLabel>
           <Input
+            color="black"
+            borderColor="black"
             type="number"
-            placeholder="Rating"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
           />
         </FormControl>
-        <Button type="submit" colorScheme="teal">Add Book</Button>
+        <Button type="submit" colorScheme="teal">
+          Add Book
+        </Button>
       </form>
     </Box>
   );
